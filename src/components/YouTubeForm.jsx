@@ -6,7 +6,18 @@ let renderCount = 0;
 
 const YouTubeForm = () => {
 
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      username: 'Batman',
+      email: '',
+      channel: '',
+      social: {
+        twitter : "",
+        facebook: ""
+      }
+    }
+  });
+
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState
 
@@ -60,13 +71,38 @@ const YouTubeForm = () => {
               <p className='error'>{errors.email?.message}</p>
             </div>
 
-            <label htmlFor='channel'>Channel</label>
-            <input 
-              type='text' 
-              id='channel' 
-              {...register("channel")}
-            />
-            <p className='error'>{errors.channel?.message}</p>
+            <div className='form-control'>
+              <label htmlFor='channel'>Channel</label>
+              <input 
+                type='text' 
+                id='channel' 
+                {...register("channel", {
+                  required:  {
+                    value: true,
+                    message: "Channel is required"
+                  }
+                })}
+              />
+              <p className='error'>{errors.channel?.message}</p>
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor='twitter'>Twitter</label>
+              <input 
+                type='text' 
+                id='twitter' 
+                {...register("social.twitter")}
+              />
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor='facebook'>Facebook</label>
+              <input 
+                type='text' 
+                id='facebook' 
+                {...register("social.facebook")}
+              />
+            </div>
 
             <button>Submit</button>
             <DevTool  control={control}/>
