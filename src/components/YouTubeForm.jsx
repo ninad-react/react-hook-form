@@ -1,6 +1,6 @@
 import { DevTool } from '@hookform/devtools';
 import React from 'react'
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 let renderCount = 0;
 
@@ -14,12 +14,13 @@ const YouTubeForm = () => {
       social: {
         twitter : "",
         facebook: ""
-      }
+      },
+      phoneNumbers: ["", ""],
     }
   });
 
   const { register, control, handleSubmit, formState } = form;
-  const { errors } = formState
+  const { errors } = formState;
 
   const onSubmit = (data) => {
     console.log('Form submitted', data);
@@ -101,6 +102,24 @@ const YouTubeForm = () => {
                 type='text' 
                 id='facebook' 
                 {...register("social.facebook")}
+              />
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor='primary-phone'>Primary phone number</label>
+              <input 
+                type='text' 
+                id='primary-phone' 
+                {...register("phoneNumbers.0")}
+              />
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor='secondary-phone'>Secondary phone number</label>
+              <input 
+                type='text' 
+                id='secondary-phone' 
+                {...register("phoneNumbers.1")}
               />
             </div>
 
