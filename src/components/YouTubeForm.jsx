@@ -16,7 +16,9 @@ const YouTubeForm = () => {
         facebook: ""
       },
       phoneNumbers: ["", ""],
-      phNumbers: [{number: ''}]
+      phNumbers: [{number: ''}],
+      age: 0,
+      dob: new Date()
     }
   });
 
@@ -153,6 +155,38 @@ const YouTubeForm = () => {
                   Add Phone number
                 </button>
               </div>
+            </div>
+
+            <div className='form-control'>
+              <label htmlFor=''>Age</label>
+              <input 
+                type='number'
+                id='age'
+                {...register("age", {
+                  valueAsNumber: true,
+                  required: {
+                    value: true,
+                    message: "Age is required"
+                  }
+                })}
+              />
+              <p className='error'>{errors.age?.message}</p>
+            </div>
+
+            <div className='form--control'>
+                <label htmlFor='dob'>Date of birth</label>
+                <input 
+                  type='date'
+                  id='dob'
+                  {...register("dob", {
+                    valueAsDate: true,
+                    required: {
+                      value: true,
+                      message: 'Date of birth is required'
+                    },
+                  })}
+                />
+                <p className='error'>{errors.dob?.message}</p>
             </div>
 
             <button>Submit</button>
