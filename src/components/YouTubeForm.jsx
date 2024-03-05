@@ -77,7 +77,8 @@ const YouTubeForm = () => {
               <label htmlFor='username'>Username</label>
               <input 
                 type='text' 
-                id='username' 
+                id='username'
+                // disabled
                 {...register("username", {
                   required: {
                     value: true,
@@ -133,7 +134,10 @@ const YouTubeForm = () => {
               <input 
                 type='text' 
                 id='twitter' 
-                {...register("social.twitter")}
+                {...register("social.twitter", {
+                  disabled: watch("channel")==="",
+                  required: "Enter twitter profile",
+                })}
               />
             </div>
 
