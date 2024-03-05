@@ -44,6 +44,10 @@ const YouTubeForm = () => {
     console.log('Form submitted', data);
   };
 
+  const onError = (errors) => {
+    console.log('errors', errors);
+  }
+
   const handleGetValues = () => {
     console.log('getValues', getValues("social.facebook"));
   }
@@ -56,13 +60,13 @@ const YouTubeForm = () => {
     });
   }
 
-  useEffect(() => {
-    const subscription = watch((value) => {
-      console.log('value', value);
-    })
+  // useEffect(() => {
+  //   const subscription = watch((value) => {
+  //     console.log('value', value);
+  //   })
 
-    return () => subscription.unsubscribe();
-  }, [watch])
+  //   return () => subscription.unsubscribe();
+  // }, [watch])
 
   // const watchForm = watch();
 
@@ -72,7 +76,7 @@ const YouTubeForm = () => {
       <h1>YouTube Form ({renderCount / 2})</h1>
       {/* <h2>Watched Value: {JSON.stringify(watchForm)}</h2> */}
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
             <div className='form-control'>
               <label htmlFor='username'>Username</label>
               <input 
