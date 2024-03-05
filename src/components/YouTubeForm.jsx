@@ -1,5 +1,5 @@
 import { DevTool } from '@hookform/devtools';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm, useFieldArray } from "react-hook-form";
 
 let renderCount = 0;
@@ -22,7 +22,7 @@ const YouTubeForm = () => {
     }
   });
 
-  const { register, control, handleSubmit, formState } = form;
+  const { register, control, handleSubmit, formState, watch, getValues } = form;
   const { errors } = formState;
 
   const {fields, append, remove} = useFieldArray({
@@ -32,14 +32,29 @@ const YouTubeForm = () => {
 
   const onSubmit = (data) => {
     console.log('Form submitted', data);
+  };
+
+  const handleGetValues = () => {
+    console.log('getValues', getValues("social.facebook"));
   }
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log('value', value);
+    })
+
+    return () => subscription.unsubscribe();
+  }, [watch])
+
+  // const watchForm = watch();
 
   renderCount++;
   return (
     <div>
       <h1>YouTube Form ({renderCount / 2})</h1>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      {/* <h2>Watched Value: {JSON.stringify(watchForm)}</h2> */}
 
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className='form-control'>
               <label htmlFor='username'>Username</label>
               <input 
@@ -190,6 +205,9 @@ const YouTubeForm = () => {
             </div>
 
             <button>Submit</button>
+            <button
+              type='button'
+              onClick={handleGetValues}>Get Values</button>
             <DevTool  control={control}/>
         </form>
     </div>
