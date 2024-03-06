@@ -19,7 +19,8 @@ const YouTubeForm = () => {
       phNumbers: [{number: ''}],
       age: 0,
       dob: new Date()
-    }
+    },
+    mode: "all"
   });
 
   const { 
