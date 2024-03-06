@@ -29,11 +29,20 @@ const YouTubeForm = () => {
     formState, 
     watch, 
     getValues,
-    setValue
+    setValue,
+    reset
   } = form;
-  const { errors, touchedFields, dirtyFields, isDirty, isValid } = formState;
 
-  console.log({touchedFields, dirtyFields, isDirty, isValid});
+  const { 
+    errors, 
+    touchedFields, 
+    dirtyFields, 
+    isDirty, 
+    isSubmitSuccessful,
+    isValid 
+  } = formState;
+
+  console.log({touchedFields, dirtyFields, isDirty, isValid, isSubmitSuccessful});
 
   const {fields, append, remove} = useFieldArray({
     name: 'phNumbers',
@@ -59,6 +68,12 @@ const YouTubeForm = () => {
       shouldTouch: true
     });
   }
+
+  useEffect(() => {
+    if(isSubmitSuccessful){
+      reset();
+    }
+  },[isSubmitSuccessful])
 
   // useEffect(() => {
   //   const subscription = watch((value) => {
@@ -111,6 +126,11 @@ const YouTubeForm = () => {
                     },
                     notBlackListed: (fieldValue) => {
                       return !fieldValue.endsWith("baddomain.com") || "This domain is not supported"
+                    },
+                    emailAvailable: async (fieldValue) => {
+                      const response = await fetch(`https://jsonplaceholder.typicode.com/users?email=${fieldValue}`)
+                      const data = await response.json();
+                      return data.length === 0  || "Email already exists";
                     }
                   }
                 })} 
@@ -230,9 +250,13 @@ const YouTubeForm = () => {
                 <p className='error'>{errors.dob?.message}</p>
             </div>
 
-            <button disabled={!isDirty || !isValid}>Submit</button>
-            <button type='button' onClick={handleGetValues}>
-              Get Values
+            <button 
+            // disabled={!isDirty || !isValid}
+            >
+              Submit
+            </button>
+            <button type='button' onClick={() => reset()}>
+              Reset
             </button>
             <button type='button' onClick={handleSetValues}>
               Set Value
